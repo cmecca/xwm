@@ -1,5 +1,5 @@
 bin_PROGRAMS = xwm
-xwm_SOURCES = xwm.c isIcon.c eventNames.h
+xwm_SOURCES = xwm.c isIcon.c
 
 bin_SCRIPTS = bin/xwm
 

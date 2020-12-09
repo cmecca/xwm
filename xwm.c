@@ -89,13 +89,11 @@ Bool raise_or_lower;
   int win_x, win_y;
   unsigned int mask;
   unsigned int button;
-  /* Wait for ButtonPress, find out which subwindow of root */
   XMaskEvent(display, ButtonPressMask, &report);
   button = report.xbutton.button;
   XQueryPointer(display, RootWindow(display,screen_num), &root,
 		&child, &root_x, &root_y, &win_x, &win_y,
 		&mask);
-  /* If not RootWindow, raise */
   if (child != NULL) {
     if (raise_or_lower == RAISE)
       XRaiseWindow(display, child);
@@ -342,7 +340,7 @@ Window makeIcon(window, x, y, icon_name_return)
 	if (!XGetGeometry(display, wmhints->icon_pixmap,
 			  &root, &icon_x, &icon_y,
 			  &icon_w, &icon_h, &icon_bdr, &depth)) {
-	  fprintf(stderr, "winman: client passed invalid \
+	  fprintf(stderr, "xwm: client passed invalid \
                         icon pixmap." );
 	  return( NULL );
 	}
@@ -489,7 +487,7 @@ Window menuwin;
     if (focus_window != RootWindow(display, screen_num)) {
       if (!(status = XGetWindowAttributes(display,
 					  focus_window, &win_attr)))
-	fprintf(stderr, "winman: can't get attributes for \
+	fprintf(stderr, "xwm: can't get attributes for \
                   focus window\n");
       XSetWindowBorderWidth(display, focus_window,
 			    win_attr.border_width + 1);
@@ -559,14 +557,14 @@ main()
   XEvent event;
   unsigned int button;
   if ( (display=XOpenDisplay(NULL)) == NULL ) {
-    (void) fprintf( stderr, "winman: cannot connect to \
+    (void) fprintf( stderr, "xwm: cannot connect to \
                 X server %s\n", XDisplayName(NULL));
     exit( -1 );
   }
   screen_num = DefaultScreen(display);
   font_info = XLoadQueryFont(display,font_name);
   if (font_info == NULL) {
-    (void) fprintf( stderr, "winman: Cannot open font %s\n",
+    (void) fprintf( stderr, "xwm: Cannot open font %s\n",
 		    font_name);
     exit( -1 );
   }
@@ -611,7 +609,7 @@ main()
   XMapWindow(display, menuwin);
 
   if ((fcntl(ConnectionNumber(display), F_SETFD, 1)) == -1)
-    fprintf(stderr, "winman: child cannot disinherit TCP fd");
+    fprintf(stderr, "xwm: child cannot disinherit TCP fd");
   while (1) {
     XNextEvent(display, &event);
     switch (event.type) {
@@ -728,7 +726,7 @@ main()
     case MotionNotify:
       break;
     default:
-      fprintf(stderr, "winman: got unexpected %s event.\n",
+      fprintf(stderr, "xwm: got unexpected %s event.\n",
 	      event_names[event.type]);
     } 
   } 

@@ -11,3 +11,4 @@ isIcon.o: isIcon.c
 
 clean:
 	rm -rf *.o xwm
+	
